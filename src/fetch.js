@@ -1,9 +1,13 @@
-import Notiflix from 'notiflix';
-// import PixabayAPI from './fetch';
+import axios from 'axios';
+// const searchParams = new URLSearchParams({
+//   per_page: 40,
+//   page: 1,
+//   client_id: '28697778-547ab5ce287b3a320fe50e9de',
+//   //   color: 'black',
+//   //   orientation: 'portrait',
+// });
 
-const formRef = document.querySelector('.search-form');
-const galleryRef = document.querySelector('.gallery');
-class PixabayAPI {
+export class PixabayAPI {
   #BASE_URL = 'https://api.unsplash.com/search/photos';
   #API_KEY = '28697778-547ab5ce287b3a320fe50e9de';
   #page;
@@ -26,11 +30,7 @@ class PixabayAPI {
     console.log(data);
     return data;
   }
-}
-
-formRef.addEventListener('submit', submitForm());
-
-async function submitForm(e) {
-  PixabayAPI.search = e.target.elements.search.value.trim();
-  PixabayAPI.page = 1;
+  get page() {
+    return this.#page;
+  }
 }
