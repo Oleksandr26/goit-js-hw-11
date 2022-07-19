@@ -3,7 +3,6 @@ import { PixabayAPI } from './fetch';
 import { createMarkup } from './markup.js';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import { data } from 'infinite-scroll';
 
 const formRef = document.querySelector('.search-form');
 const galleryRef = document.querySelector('.gallery');
@@ -27,7 +26,6 @@ async function submitForm(event) {
   }
   try {
     const { data } = await pixabayAPI.getImg(pixabayAPI.searchQuery);
-    console.log();
     if (data.total >= 1) {
       const markup = createMarkup(data.hits);
       galleryRef.insertAdjacentHTML('beforeend', markup);
