@@ -12,7 +12,7 @@ export class PixabayAPI {
     this.#page = 1;
     this.#perPage = 40;
     this.searchQuery = '';
-    this.totalPage = 0;
+    this.hits = '';
   }
 
   async getImg() {
@@ -32,8 +32,10 @@ export class PixabayAPI {
   incrementPage() {
     this.#page += 1;
   }
-
-  totalPage(totalHits) {
-    return totalHits / this.#perPage;
+  resetPage() {
+    this.#page = 1;
+  }
+  totalPages(totalHits) {
+    this.totalPage = totalHits / this.#perPage;
   }
 }

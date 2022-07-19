@@ -12,7 +12,7 @@ export function createMarkup(img) {
       }) => {
         return `<div class="photo-card">
         <a class="gallery__link" href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="300px" />
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="300px" height ="200px" />
   </a>
   <div class="info">
     <p class="info-item">

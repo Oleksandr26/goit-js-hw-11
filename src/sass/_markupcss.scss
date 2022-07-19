@@ -1,5 +1,4 @@
 .gallery{
-  padding-top: 40px;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
@@ -10,4 +9,17 @@
   display: flex;
   justify-content: center;
   background-color: seagreen;
+}
+
+.photo-card{
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.load-more{
+  margin: 0 auto;
+  display: block;
+}
+.is-hidden{
+  display: none;
 }
