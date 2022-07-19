@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'https://api.unsplash.com/search/photos';
-// axios.defaults.headers.Authorization = '28697778-547ab5ce287b3a320fe50e9de';
 export class PixabayAPI {
   #BASE_URL = 'https://pixabay.com/api/';
   #API_KEY = '28697778-547ab5ce287b3a320fe50e9de';
