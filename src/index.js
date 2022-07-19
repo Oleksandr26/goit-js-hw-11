@@ -1,36 +1,54 @@
-import Notiflix from 'notiflix';
-// import PixabayAPI from './fetch';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { PixabayAPI } from './fetch';
+import { createMarkup } from './markup.js';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formRef = document.querySelector('.search-form');
 const galleryRef = document.querySelector('.gallery');
-class PixabayAPI {
-  #BASE_URL = 'https://api.unsplash.com/search/photos';
-  #API_KEY = '28697778-547ab5ce287b3a320fe50e9de';
-  #page;
-  #perPage;
+const { height: cardHeight } = document
+  .querySelector('.gallery')
+  .firstElementChild.getBoundingClientRect();
 
-  constructor() {
-    this.#page = 1;
-    this.#perPage = 40;
-    this.search = '';
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: 'smooth',
+});
+
+const pixabayAPI = new PixabayAPI();
+
+formRef.addEventListener('submit', submitForm);
+
+async function submitForm(event) {
+  event.preventDefault();
+  pixabayAPI.searchQuery = event.target.elements.searchQuery.value.trim();
+  pixabayAPI.page = 1;
+  if (!pixabayAPI.searchQuery) {
+    Notify.failure('Please enter something');
+    return;
+  } else if (pixabayAPI.searchQuery) {
+    galleryRef.innerHTML = '';
   }
+  try {
+    const { data } = await pixabayAPI.getImg(pixabayAPI.searchQuery);
+    console.log();
+    if (data.total >= 1) {
+      const markup = createMarkup(data.hits);
+      galleryRef.insertAdjacentHTML('beforeend', markup);
+      const lightbox = new SimpleLightbox('.gallery a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+        captionPosition: 'bottom',
+      });
 
-  async getImg() {
-    const data = await axios.get(
-      `${this.#BASE_URL}?key=${this.#API_KEY}&q=${
-        this.search
-      }&image_type=photo&orientation=horizontal&safesearch=true&page=${
-        this.#page
-      }&per_page=${this.#perPage}`
-    );
-    console.log(data);
-    return data;
+      Notify.success(`Hooray! We found ${data.totalHits} images.`);
+    } else if (data.total === 0) {
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+    }
+  } catch (error) {
+    Notify.failure('Something wrong');
+    console.error(error);
   }
-}
-
-formRef.addEventListener('submit', submitForm());
-
-async function submitForm(e) {
-  PixabayAPI.search = e.target.elements.search.value.trim();
-  PixabayAPI.page = 1;
 }
